@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroRail One – Buchungsbestätigung</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #FFFFFF;
+    color: #082D56;
+    margin: 0;
+}
+header {
+    background-color: #082D56;
+    color: #FFFFFF;
+    padding: 15px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header img { height: 100px; }
+nav a { color: white; margin-left: 25px; font-weight: 600; text-decoration: none; }
+nav a:hover { color: #86242F; }
+
+main { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+h1, h2 { color: #082D56; text-align: center; }
+.booking-number { font-weight: 700; font-size: 1.5rem; margin-bottom: 25px; text-align: center; color: #86242F; }
+
+.notice, .mobility-notice {
+    background-color: #FFFBCC;
+    border-left: 5px solid #86242F;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 30px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.ticket-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; }
+.ticket { background: #F8FAFC; border: 1px solid #CBD5E1; border-radius: 12px; padding: 20px; width: 280px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); position: relative; }
+.ticket h3 { margin-bottom: 10px; color: #86242F; text-align: center; }
+.ticket p { margin-bottom: 8px; font-size: 0.95rem; }
+.ticket label { display: block; font-weight: 600; margin-top: 10px; }
+.ticket input { width: 100%; padding: 6px; border-radius: 6px; border: 1px solid #CBD5E1; margin-top: 4px; }
+.qrcode { display: block; margin: 15px auto 0; }
+
+footer { background-color: #082D56; color: #FFFFFF; text-align: center; padding: 30px 50px; margin-top: 50px; }
+footer a { color: #FF0000; font-weight: 600; margin: 0 10px; }
+
+@media(max-width: 768px) {
+    .ticket-container { flex-direction: column; align-items: center; }
+    .ticket { width: 90%; }
+}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+</header>
+
+<main>
+    <h1>Buchungsbestätigung</h1>
+    <div class="booking-number">Buchungsnummer: <span id="bookingNumber"></span></div>
+    
+    <div class="notice">
+        Bitte laden Sie die Fahrkarten mit der Buchungsnummer in die App, um dort weitere notwendige Informationen zu hinterlegen. Angemeldete Nutzer sehen die Tickets auch im Kundenkonto auf der App und auf der Webseite.
+    </div>
+
+    <div id="mobilityNotice" class="mobility-notice" style="display:none;"></div>
+
+    <div class="ticket-container" id="ticketContainer">
+        <!-- Fahrkarten werden hier dynamisch erzeugt -->
+    </div>
+</main>
+
+<footer>
+    &copy; 2026 EuroRail One. Alle Rechte vorbehalten.
+</footer>
+
+<script>
+function generateBookingNumber() {
+    return Math.random().toString(36).substring(2,10).toUpperCase();
+}
+
+function generateTicketID() {
+    return Math.random().toString(36).substring(2,12).toUpperCase();
+}
+
+function createTicket(person, index, bookingNumber, params) {
+    const ticketID = generateTicketID();
+    const ticket = document.createElement('div');
+    ticket.className = 'ticket';
+    ticket.innerHTML = `
+        <h3>Fahrkarte ${index+1} – ${person.type}</h3>
+        <p><strong>Abfahrt:</strong> ${params.departure}</p>
+        <p><strong>Ziel:</strong> ${params.destination}</p>
+        <p><strong>Datum:</strong> ${params.date}</p>
+        <p><strong>Abfahrtszeit:</strong> ${params.depTime}</p>
+        <p><strong>Zug:</strong> ${params.train} ${params.route ? '('+params.route+')' : ''}</p>
+        <p><strong>Dauer:</strong> ${params.duration}</p>
+        <p><strong>Klasse:</strong> ${params.class}</p>
+        <p><strong>Preis:</strong> €${Math.floor(person.price)}</p>
+        <label>Name auf der Fahrkarte:
+            <input type="text" name="name_${index}" placeholder="Max Mustermann">
+        </label>
+        <label>Geburtsdatum:
+            <input type="date" name="dob_${index}">
+        </label>
+        <canvas id="qrco${index}" class="qrcode"></canvas>
+    `;
+    document.getElementById('ticketContainer').appendChild(ticket);
+
+    const qrText = `Buchungsnr: ${bookingNumber}\nTicketID: ${ticketID}\nPerson: ${person.type}\nAbfahrt: ${params.departure}\nZiel: ${params.destination}\nDatum: ${params.date}\nAbfahrtszeit: ${params.depTime}\nZug: ${params.train} ${params.route ? '('+params.route+')' : ''}\nDauer: ${params.duration}\nKlasse: ${params.class}\nPreis: €${Math.floor(person.price)}`;
+
+    new QRious({
+        element: document.getElementById(`qrco${index}`),
+        value: qrText,
+        size: 180
+    });
+}
+
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const bookingNumber = generateBookingNumber();
+    document.getElementById('bookingNumber').textContent = bookingNumber;
+
+    // Mobilitätsservice anzeigen
+    const mobility = urlParams.get('mobility');
+    if (mobility && mobility.toLowerCase() === 'ja') {
+        const notice = document.getElementById('mobilityNotice');
+        notice.textContent = "Sie haben den Mobilitätsservice angewählt. Sobald Ihre Daten bei uns vollständig vorliegen, melden wir uns bei Ihnen. In Ihrem Kundenaccount oder über Ihre Buchungsreferenz können Sie dies auch rückgängig machen.";
+        notice.style.display = 'block';
+    }
+
+    const params = {
+        departure: decodeURIComponent(urlParams.get('departure') || ''),
+        destination: decodeURIComponent(urlParams.get('destination') || ''),
+        date: decodeURIComponent(urlParams.get('date') || ''),
+        depTime: decodeURIComponent(urlParams.get('depTime') || ''),
+        train: decodeURIComponent(urlParams.get('train') || ''),
+        route: decodeURIComponent(urlParams.get('route') || ''),
+        duration: decodeURIComponent(urlParams.get('duration') || ''),
+        class: decodeURIComponent(urlParams.get('class') || '')
+    };
+
+    const persons = [];
+
+    // Erwachsene
+    const adultPrices = decodeURIComponent(urlParams.get('adultPrices') || '').split(',').filter(p => p).map(p => parseFloat(p.replace('€','')));
+    adultPrices.forEach(p => persons.push({type:'Erwachsener', price:p}));
+
+    // Kinder
+    const childPrices = decodeURIComponent(urlParams.get('childPrices') || '').split(',').filter(p => p).map(p => parseFloat(p.replace('€','')));
+    childPrices.forEach(p => persons.push({type:'Kind', price:p}));
+
+    // Senioren
+    const seniorPrices = decodeURIComponent(urlParams.get('seniorPrices') || '').split(',').filter(p => p).map(p => parseFloat(p.replace('€','')));
+    seniorPrices.forEach(p => persons.push({type:'Senior', price:p}));
+
+    persons.forEach((p,i)=> createTicket(p,i,bookingNumber,params));
+};
+</script>
+</body>
+</html>

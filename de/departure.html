@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vor der Abfahrt – EuroRail One</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        header img {
+            height: 90px;
+        }
+
+        .burger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #082D56;
+                width: 260px;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: 0.3s;
+                z-index: 999;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-main,
+            .nav-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .dropdown {
+            position: relative;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #FFFFFF;
+            color: #082D56;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 14px 18px;
+        }
+
+        .dropdown-content a:hover {
+            background: #F5F5F5;
+            color: #86242F;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* HERO */
+        .hero {
+            background: #86242F;
+            color: #FFFFFF;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #86242F;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: #F8FAFC;
+            border-left: 5px solid #86242F;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+
+    <button class="burger" onclick="toggleMenu()">☰</button>
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMenu() {
+    document.querySelector(".nav").classList.toggle("open");
+}
+</script>
+
+<section class="hero">
+    <h1>Vor der Abfahrt</h1>
+    <p>Gut vorbereitet reisen – wichtige Informationen für Ihre Fahrt mit EuroRail One</p>
+</section>
+
+<div class="content">
+
+    <div class="section">
+        <h2>Check-in & Boarding</h2>
+        <div class="info-box">
+            <ul>
+                <li>Bitte erscheinen Sie <strong>60 Minuten vor Abfahrt am Check-In.</strong> Dies ist zur Durchführung der Sicherheits- und Zollkontrollen.</li>
+                <li>Der Check-In für jede Fahrt beginnt jeweils 90 minuten vor Fahrtantritt. Genießen Sie den Aufenthalt in unserer komplementären Lounge vor Fahrtantritt - Auch in der Relax-Wagenklasse</li>
+                <li><strong>Der Check-In schließt 30 Minuten vor Abfahrt!</strong> Anschließend ist ein zutritt nicht mehr möglich!</li>
+                <li>Das Boarding beginnt in der Regel <strong>20 Minuten vor Abfahrt</strong>.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Reisedokumente</h2>
+        <p>Für die Fahrt mit EuroRail One benötigen Sie:</p>
+        <ul>
+            <li>Ein gültiges <strong>Ticket</strong> (digital oder ausgedruckt)</li>
+            <li>Einen <strong>gültigen Reisepass</strong> für die Ein-/Ausreise in die EU und das Vereinigte Königreich</li>
+            <li>Ggf. erforderliche <strong>Visa/ETA oder Einreisegenehmigungen</strong></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Gepäck</h2>
+        <p>
+            EuroRail One hat keine Gepäckbeschränkungen. 
+			Sperrige oder außergewöhnlich große Gepäckstücke müssen jedoch vorab angemeldet werden. 
+            Alle Gepäckstücke müssen selbstständig verstaut werden können.<br>
+			Die Menge und Größe des Gepäcks muss angemessen sein. 
+			Sollte das Gepäck aufgrund von Menge oder Übergröße nicht verstaut werden können besteht kein Anrecht auf Mitnahme. Lagerung am Bahnhof für bis zu 30 Tage ist entgeltlich und nur nach Ermessen des Personals möglich.<br>
+			Beachten Sie auch die Einreisebestimmungen für Gepäckmitnahme
+        </p>
+        <div class="info-box">
+            <h3>Verbotene Gegenstände</h3>
+			<br>
+			<ul>
+				<li>Waffen & Gefahrstoffe: Alle echten oder nachgemachten Waffen, Schusswaffen, Munition, Sprengstoffe (inkl. Feuerwerk), Elektroschockgeräte, Reiz-/Tränengas, gefährliche Chemikalien sowie brennbare Stoffe und Feueranzünder.</li>
+				<li>Messer & scharfe Gegenstände: Alle Klappmesser und feststellbaren Taschenmesser; erlaubt sind nur nicht feststellbare Taschenmesser mit Klingen unter 77 mm (FR) / 3 Zoll (UK).</li>
+				<li>Weitere verbotene Artikel: Gartengeräte (z. B. Kettensägen), Pestizide, illegale Drogen, Möbel, übermäßige Alkoholmengen, verderbliche Waren, Surf-/Windsurfausrüstung sowie E-Scooter/Hoverboards (inkl. Batterien).</li>
+			<ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Fahrräder</h2>
+        <p>
+            In unseren Zügen gibt es nur eine begrenzte Menge an Fahrradstellplätzen. Bitte melden Sie ihr Fahrrad rechtzeitig vor Fahrtantritt an.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Sicherheits- & Grenzkontrollen</h2>
+        <p>
+            Auf den Fahrten von EuroRail One zwischen der EU und Großbritannien finden Sicherheits- und Grenzkontrollen
+            bereits vor der Abfahrt statt. Bitte folgen Sie den Hinweisen des Personals
+            und halten Sie Ihre Dokumente bereit.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Verspätungen & Änderungen</h2>
+        <p>
+            Aktuelle Informationen zu Fahrplanänderungen oder Betriebsstörungen erhalten Sie:
+        </p>
+        <ul>
+            <li>auf unserer Website</li>
+            <li>per E-Mail oder App-Benachrichtigung</li>
+            <li>direkt am Bahnhof über Anzeigetafeln</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2026 EuroRail One |
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a> |
+    <a href="#">Kontakt</a>
+</footer>
+
+</body>
+</html>

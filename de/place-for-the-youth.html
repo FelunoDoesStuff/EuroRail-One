@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroRail One - Ein Platz für die Jugend</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    body, * {margin:0; padding:0; box-sizing:border-box;}
+    body {font-family:'Montserrat', sans-serif; background:#FFFFFF; color:#082D56;}
+    a {text-decoration:none; color:inherit;}
+    header {background:#082D56; color:#FFF; display:flex; align-items:center; justify-content:space-between; padding:15px 50px; flex-wrap:wrap; position:relative;}
+    header img {height:100px;}
+    .burger {display:none; font-size:28px; background:none; border:none; color:white; cursor:pointer;}
+    nav {display:flex; flex-direction:column;}
+    .nav-top {display:flex; justify-content:flex-end; gap:20px; font-size:0.9rem; margin-bottom:8px;}
+    .nav-main {display:flex; align-items:center; gap:25px;}
+    .dropdown {position:relative; font-weight:600; cursor:pointer; padding:10px 5px;}
+    .dropdown-content {display:none; position:absolute; top:100%; left:0; background:#FFF; color:#082D56; min-width:220px; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.15); overflow:hidden; z-index:100;}
+    .dropdown-content a {display:block; padding:14px 18px;}
+    .dropdown-content a:hover {background:#F5F5F5; color:#86242F;}
+    .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content {display:block;}
+    @media(max-width:768px){header{flex-direction:column;} .burger{display:block;} .nav {position:absolute; top:100%; right:0; background:#082D56; width:250px; padding:20px; transform:translateX(100%); transition:0.3s; z-index:999;} .nav.open{transform:translateX(0);} .nav-main, .nav-top{flex-direction:column; align-items:flex-start; gap:15px;} .dropdown-content{position:static; box-shadow:none;}}
+
+    /* Hero Bereich */
+    .youth-hero{
+        position:relative;
+        background:linear-gradient(rgba(0,120,255,0.5), rgba(0,200,255,0.5)), url('https://cdn.pixabay.com/photo/2019/10/02/12/55/london-4520905_1280.jpg') center/cover no-repeat;
+        color:#FFF;
+        text-align:center;
+        padding:100px 20px;
+    }
+    .youth-hero h1{font-size:3rem; margin-bottom:20px;}
+    .youth-hero p{font-size:1.3rem; margin-bottom:30px;}
+    .youth-hero button{
+        padding:15px 30px;
+        background:#FFDD00;
+        color:#86242F;
+        border:none;
+        border-radius:8px;
+        font-size:1.2rem;
+        cursor:pointer;
+        transition:0.3s;
+    }
+    .youth-hero button:hover{
+        background:#FF0000;
+        color:#FFF;
+    }
+
+    /* Info Sektion */
+    .info-section{
+        max-width:1000px;
+        margin:50px auto;
+        padding:0 20px;
+        display:flex;
+        flex-direction:column;
+        gap:40px;
+    }
+    .info-box{
+        background:#F5F5F5;
+        padding:30px;
+        border-radius:12px;
+        text-align:center;
+        transition:transform 0.3s;
+    }
+    .info-box:hover{transform:translateY(-5px);}
+    .info-box h2{color:#082D56; margin-bottom:15px;}
+    .info-box p{line-height:1.6; margin-bottom:15px; font-size:1.05rem;}
+    .info-box button{
+        padding:12px 25px;
+        background:#86242F;
+        color:#FFF;
+        border:none;
+        border-radius:6px;
+        font-weight:600;
+        cursor:pointer;
+        transition:0.3s;
+    }
+    .info-box button:hover{
+        background:#FF0000;
+    }
+
+    /* Banner für Jugend-Fixpreis */
+    .youth-banner{
+        position:relative;
+        background:url('https://cdn.pixabay.com/photo/2017/09/09/19/00/passport-2733068_1280.jpg') center/cover no-repeat;
+        height:400px;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#FFF;
+        text-align:center;
+        margin:50px 20px;
+    }
+    .youth-banner-overlay{position:absolute; inset:0; background:rgba(0,0,0,0.4);}
+    .youth-banner-content{position:relative; z-index:2; padding:20px;}
+    .youth-banner-content h2{font-size:2rem; margin-bottom:10px;}
+    .youth-banner-content p{font-size:1.1rem; margin-bottom:15px;}
+    .youth-banner-content button{padding:12px 25px; background:#FFDD00; color:#86242F; border:none; border-radius:6px; cursor:pointer; font-weight:600; transition:0.3s;}
+    .youth-banner-content button:hover{background:#FF0000; color:#FFF;}
+
+    footer {background:#082D56; color:#FFF; padding:30px 50px; text-align:center;}
+    footer a {color:#FF0000; font-weight:600; margin:0 10px;}
+
+    @media(max-width:768px){.info-section{gap:25px;} .youth-banner{height:200px;}}
+</style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMenu(){document.querySelector(".nav").classList.toggle("open");}
+</script>
+
+<!-- Hero -->
+<section class="youth-hero">
+    <h1>Ein Platz für die Jugend</h1>
+    <p>Junge Leute bis 27 reisen zu einem günstigen Fixpreis – limitierte Tickets, kurzfristig verfügbar!</p>
+    <a href="index.html#booking"><button>Jetzt buchen & sparen</button></a>
+</section>
+
+<!-- Info Sektion -->
+<section class="info-section">
+    <div class="info-box">
+        <h2>Wer kann buchen?</h2>
+        <p>Dieses Angebot gilt für alle jungen Reisenden bis einschließlich 27 Jahre. Einfach Alter beim Kauf angeben und los geht’s!</p>
+    </div>
+    <div class="info-box">
+        <h2>Vorteile des Angebots</h2>
+        <p>✔ Günstiger Fixpreis<br>✔ Kurzfristig verfügbar<br>✔ Limitierte Plätze für spontane Reisen</p>
+    </div>
+    <div class="info-box">
+        <h2>So funktioniert es</h2>
+        <p>Wählen Sie Ihre gewünschte Fahrt, prüfen Sie die Verfügbarkeit für das Jugendticket und sichern Sie sich Ihren Platz zum Fixpreis.</p>
+        <button>Jetzt Jugendticket sichern</button>
+    </div>
+</section>
+
+<!-- Banner -->
+<div class="youth-banner">
+    <div class="youth-banner-overlay"></div>
+    <div class="youth-banner-content">
+        <h2>Fixpreis für junge Reisende</h2>
+        <p>Limitiertes Kontingent – sichern Sie sich Ihr Ticket noch heute!</p>
+        <button>Buchen</button>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 EuroRail One | 
+    <a href="#">Impressum</a> | 
+    <a href="#">Datenschutz</a> | 
+    <a href="#">Kontakt</a>
+</footer>
+
+</body>
+</html>

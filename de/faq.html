@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ – EuroRail One</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: #FFFFFF;
+    color: #082D56;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ================= HEADER + NAV ================= */
+
+header {
+    background-color: #082D56;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 50px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+header img {
+    height: 80px;
+}
+
+.burger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-top {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.nav-main {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+nav a {
+    font-weight: 600;
+}
+
+nav a:hover {
+    color: #86242F;
+}
+
+.dropdown {
+    position: relative;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #FFF;
+    color: #082D56;
+    min-width: 220px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 14px 18px;
+}
+
+.dropdown-content a:hover {
+    background: #F5F5F5;
+    color: #86242F;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Mobile Nav */
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #082D56;
+        width: 260px;
+        padding: 20px;
+        transform: translateX(100%);
+        transition: 0.3s;
+        z-index: 999;
+    }
+
+    .nav.open {
+        transform: translateX(0);
+    }
+
+    .nav-main,
+    .nav-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .dropdown-content a {
+        color: #FFFFFF;
+        padding-left: 0;
+    }
+}
+
+/* ================= FAQ ================= */
+
+.faq {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.faq h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+}
+
+.faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: inherit;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #082D56;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-icon {
+    font-size: 1.6rem;
+    transition: transform 0.3s;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.faq-answer p {
+    line-height: 1.7;
+    padding-top: 10px;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 400px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+/* Links im Text */
+.faq-answer a {
+    color: #86242F;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.faq-answer a:hover {
+    color: #082D56;
+}
+
+/* ================= FOOTER ================= */
+
+footer {
+    background: #082D56;
+    color: #FFF;
+    text-align: center;
+    padding: 30px;
+    margin-top: 80px;
+}
+
+footer a {
+    color: #FF0000;
+    font-weight: 600;
+    margin: 0 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html">
+        <img src="euro_logo.png" alt="EuroRail One Logo">
+    </a>
+
+    <button class="burger" onclick="toggleMenu()">☰</button>
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<section class="faq">
+<h1>Häufig gestellte Fragen (FAQ)</h1>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Wie buche ich ein Ticket?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Tickets können einfach online über unsere Website gebucht werden.
+            Gruppen ab 10 Personen wenden sich bitte an unseren <a href="groups.html">Gruppenservice</a>.
+			An unseren Bahnhöfen stehen Ihnen zudem Reisezentren zur Verfügung, in denen Sie komfortabel auch vor Ort buchen können.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Welche Strecke bedient EuroRail One?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            EuroRail One verbindet Karlsruhe Hbf direkt mit London St. Pancras
+            mit Zwischenhalten in Strasbourg, Paris Charles de Gaulle und Köln. 
+			Innerkontinentale Reisen sind nicht möglich.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Wie früh sollte ich vor Abfahrt am Bahnhof sein?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Wir empfehlen, mindestens 60 Minuten vor Abfahrt am Bahnhof zu sein.
+            Dies ist aufgrund der notwendigen Sicherheits- und Passkontrollen.
+			Ab 30 Minuten vor Abfahrt ist kein Check-In mehr möglich.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Kann ich mein Ticket umbuchen oder stornieren?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Umbuchungen und Stornierungen sind unkompliziert vor Ort am Schalter oder durch Angabe der Buchungsreferenz online möglich.
+            Umbuchungen können aber nur auf Züge mit freien Kapazitäten vorgenommen werden.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Gibt es Unterstützung bei Verspätungen oder Ausfällen?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Ja. Unsere Mitarbeitenden im Zug und am Bahnhof unterstützen Sie aktiv
+            bei Hotelbuchungen, Taxi-Organisation oder Anschlussreisen – ohne Vorkasse.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Was, wenn ich meinen Zug verpasst habe?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Sofern Kapazitäten vorhanden sind, buchen unsere Mitarbeiter Sie schnell und unkompliziert auf einen der Folgezüge um. 
+			Anschlussreisende von verspäteten Zügen werden hierbei jedoch gegenüber privatorganisisert Anreisenden Gästen priorisiert.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Darf ich Gepäck mitnehmen?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Ja, Handgepäck und normales Reisegepäck sind im Fahrpreis enthalten.
+            Sperriges Gepäck bitte vorab anmelden.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Welche Gepäckbeschränkungen gibt es?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Wir haben keine Größen- und Mengenbeschränkungen. Einige Gegenstände sind jedoch von der Mitführung ausgeschlossen. Diese können sie in <a href="departure.html">Vor der Abfahrt</a> nachlesen.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Gibt es Flüssigkeitsbeschränkungen?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Nein.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <button class="faq-question">
+        Welche Services erwarten mich im Zug?
+        <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">
+        <p>
+            Neben komfortablen Sitzen erwartet Sie unter anderem komplementäres Essen und Getränke, Bordservice in der Enjoyment Class sowie ein Spielbereich für unsere kleinen Gäste. Weiteres erfahren sie in <a href="train.html">Im Zug</a>.
+        </p>
+    </div>
+</div>
+
+</section>
+
+<footer>
+    &copy; 2026 EuroRail One |
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a> |
+    <a href="#">Kontakt</a>
+</footer>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(button => {
+    button.addEventListener("click", () => {
+        const item = button.parentElement;
+        item.classList.toggle("active");
+    });
+});
+</script>
+
+</body>
+</html>

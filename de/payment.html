@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurePay - Payment Gateway</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; }
+        .header { background-color: #333; color: white; text-align: center; padding: 10px 0; }
+        .footer { background-color: #333; color: white; text-align: center; padding: 10px 0; position: fixed; bottom: 0; width: 100%; }
+        .container { display: flex; justify-content: center; padding: 20px; }
+        .sidebar { background-color: #fff; padding: 20px; margin-right: 20px; width: 250px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .main-content { background-color: #fff; padding: 20px; width: 100%; max-width: 500px; box-shadow: 0 0 10px rgba(0,0,0,0.1); text-align: center; }
+        .sidebar h2, .main-content h2 { color: #333; }
+        .sidebar .account-details, .main-content .payment-details { margin: 20px 0; }
+        .credit-card { background: linear-gradient(135deg, #6c7ae0, #8e44ad); border-radius: 10px; padding: 20px; color: white; margin: 20px 0; text-align: left; position: relative; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .credit-card .number, .credit-card .name, .credit-card .expiry { font-size: 18px; }
+        .credit-card .number { margin: 20px 0; }
+        .credit-card .expiry { position: absolute; bottom: 20px; right: 20px; }
+        .button { display: inline-block; padding: 10px 20px; margin: 10px; border-radius: 5px; text-decoration: none; font-size: 16px; width: 100%; box-sizing: border-box; text-align: center; }
+        .button-pay { background-color: #4CAF50; color: white; border: none; }
+        .button-cancel { background-color: #aaa; color: white; border: none; }
+        .button:hover { opacity: 0.9; }
+        .loading-screen { display: flex; justify-content: center; align-items: center; position: fixed; width: 100%; height: 100%; background-color: white; z-index: 9999; }
+        .throbber { border: 16px solid #f3f3f3; border-radius: 50%; border-top: 16px solid #3498db; width: 120px; height: 120px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite; }
+        @-webkit-keyframes spin { 0% { -webkit-transform: rotate(0deg); } 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="throbber"></div>
+    </div>
+
+    <div class="header">
+        <h1>SecurePay</h1>
+        <nav>
+            <a href="#" style="color: white; margin: 0 10px;">Home</a>
+            <a href="#" style="color: white; margin: 0 10px;">Services</a>
+            <a href="#" style="color: white; margin: 0 10px;">Support</a>
+            <a href="#" style="color: white; margin: 0 10px;">Contact</a>
+            <a href="index.html" style="color: white; margin: 0 10px;">Log Out</a>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Your Account</h2>
+            <div class="account-details">
+                <p><strong>Name:</strong> ############</p>
+                <p><strong>Email:</strong> #####@#####.##</p>
+            </div>
+            <h2>Payment Method</h2>
+            <div class="credit-card">
+                <p class="number">**** **** **** 6891</p>
+                <p class="name">--- -----------</p>
+                <p class="expiry">12/27</p>
+            </div>
+        </div>
+        <div class="main-content">
+            <h2>Payment Details</h2>
+            <div class="payment-details">
+                <p><strong>Service:</strong> Train Fare</p>
+                <p><strong>Price:</strong> €<span id="price"></span></p>
+                <p><strong>Recipient:</strong> EuroRail One</p>
+            </div>
+            <a href="#" id="payButton" class="button button-pay">Pay &amp; Continue</a>
+            <a href="index.html" class="button button-cancel">Cancel</a>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 SecurePay. All rights reserved.</p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.display = 'none';
+            }, 2000);
+
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Alle übergebenen Parameter unverändert weiter verwenden
+            const paramsObj = {};
+            urlParams.forEach((value,key)=>{ paramsObj[key]=value; });
+
+            // Preis anzeigen
+            document.getElementById('price').textContent = paramsObj.total || paramsObj.price || "0";
+
+            document.getElementById('payButton').addEventListener('click', function() {
+                // Weiterleitung mit exakt denselben Parametern
+                const params = new URLSearchParams(paramsObj);
+                window.location.href = "confirmation.html?" + params.toString();
+            });
+        };
+    </script>
+</body>
+</html>

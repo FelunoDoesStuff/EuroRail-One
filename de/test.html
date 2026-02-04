@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuroRail One</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Grundlegendes Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+			position: relative;
+        }
+
+        header img {
+            height: 100px;
+        }
+
+.burger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .burger {
+        display: block;
+    }
+
+.nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #082D56;
+    width: 250px;
+    padding: 20px;
+
+    transform: translateX(100%);
+    transition: 0.3s;
+    z-index: 999; /* wichtig! */
+}
+
+    .nav.open {
+        transform: translateX(0);
+    }
+
+    .nav-main,
+    .nav-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+    }
+}
+
+
+
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+.nav-top {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+/* MAIN NAV */
+.nav-main {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+        nav a {
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #86242F;
+        }
+
+/* DROPDOWNS – verbessert */
+.dropdown{
+    position:relative;
+    font-weight:600;
+    cursor:pointer;
+    padding:10px 5px;
+}
+
+.dropdown span{
+    display:inline-block;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background:#FFF;
+    color:#082D56;
+    min-width:220px;
+    border-radius:8px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+    overflow:hidden;
+    z-index:100;
+}
+
+.dropdown-content a{
+    display:block;
+    padding:14px 18px;
+}
+
+.dropdown-content a:hover{
+    background:#F5F5F5;
+    color:#86242F;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content{
+    display:block;
+}
+
+
+
+/* HERO */
+.hero{
+    position:relative;
+    background:#86242F;
+    color:#FFF;
+    text-align:center;
+    padding:80px 20px;
+    overflow:hidden;
+    z-index:1;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url("train.png") center/cover no-repeat;
+    opacity:0.4;
+    z-index:0;
+}
+
+.hero *{
+    position:relative;
+    z-index:1;
+}
+
+.hero h1{font-size:3rem;margin-bottom:20px;}
+.hero p{font-size:1.2rem;margin-bottom:30px;}
+
+.hero button{
+    padding:12px 25px;
+    background:#FFF;
+    color:#86242F;
+    border:none;
+    border-radius:6px;
+    font-size:1.1rem;
+    cursor:pointer;
+}
+
+.hero button:hover{
+    background:#FF0000;
+    color:#FFF;
+}
+
+        /* Buchungsbereich */
+        .booking {
+		    position:relative;
+			z-index:5; /* Fix gegen Überlagerung */
+            max-width: 800px;
+            margin: -50px auto 20px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .booking h2 {
+            color: #082D56;
+            margin-bottom: 20px;
+        }
+
+        .booking form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .booking input, .booking select {
+            padding: 10px;
+            border: 1px solid #082D56;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .booking button {
+            grid-column: span 2;
+            padding: 12px;
+            background-color: #86242F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .booking button:hover {
+            background-color: #FF0000;
+        }
+
+/* ===== Booking – optische Anpassungen ===== */
+
+/* etwas moderneres Panel */
+.booking {
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Inputs etwas cleaner */
+.booking input,
+.booking select {
+    border: 1px solid #CBD5E1;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.booking input:focus,
+.booking select:focus {
+    outline: none;
+    border-color: #86242F;
+    box-shadow: 0 0 0 3px rgba(134,36,47,0.15);
+}
+
+/* ===== Klassenauswahl als Schieberegler ===== */
+
+/* Das ist das erste div im Formular = Klassentoggle */
+.booking form > div:nth-of-type(1) {
+    grid-column: span 2;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #E5E7EB;
+    border-radius: 999px;
+    padding: 4px;
+    overflow: hidden;
+}
+
+/* Radios ausblenden */
+.booking form > div:nth-of-type(1) input[type="radio"] {
+    display: none;
+}
+
+/* Labels als Toggle-Hälften */
+.booking form > div:nth-of-type(1) label {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #082D56;
+    border-radius: 999px;
+    transition: color 0.25s;
+}
+
+/* Der "Slider" */
+.booking form > div:nth-of-type(1)::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    background: #86242F;
+    border-radius: 999px;
+    transition: transform 0.25s ease;
+    z-index: 1;
+}
+
+/* Wenn zweite Option aktiv → Slider nach rechts */
+.booking form > div:nth-of-type(1):has(input[value="Enjoyment"]:checked)::before {
+    transform: translateX(100%);
+}
+
+/* Aktive Schriftfarbe */
+.booking form > div:nth-of-type(1) input:checked + * {
+    color: #FFFFFF;
+}
+
+/* Fallback für Textfarbe (weil Text im Label ist) */
+.booking form > div:nth-of-type(1) label:has(input:checked) {
+    color: #FFFFFF;
+}
+
+/* ===== Reisende-Auswahl (Erwachsene/Kinder/Senioren) ===== */
+
+/* Das ist das zweite div im Formular = Reisende */
+.booking form > div:nth-of-type(2) {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* Jede Kategorie als "Karte" */
+.booking form > div:nth-of-type(2) label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #F8FAFC;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #082D56;
+    border: 1px solid #E2E8F0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Number-Inputs moderner */
+.booking form > div:nth-of-type(2) input[type="number"] {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 8px;
+    background: #FFFFFF;
+}
+
+/* Hover/Fokus-Effekt auf Karten */
+.booking form > div:nth-of-type(2) label:focus-within,
+.booking form > div:nth-of-type(2) label:hover {
+    border-color: #86242F;
+    box-shadow: 0 0 0 3px rgba(134,36,47,0.12);
+}
+
+/* Mobile: untereinander */
+@media(max-width: 768px) {
+    .booking form > div:nth-of-type(2) {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+        /* Slogan */
+        .slogan {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #082D56;
+            margin: 15px 0 40px;
+        }
+
+        /* Betriebsstörungen */
+        .disruptions {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            background-color: #FFCCCC;
+            border-left: 5px solid #86242F;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #86242F;
+        }
+
+        /* Werbeaktionen */
+        .promotions {
+            background-color: #F5F5F5;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .promotions h2 {
+            color: #082D56;
+            margin-bottom: 40px;
+        }
+
+        .promotion-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .promotion-card {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 12px;
+            width: 250px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .promotion-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .promotion-card h3 {
+            color: #86242F;
+            margin-bottom: 15px;
+        }
+
+        /* Fahrgastinformationen */
+        .info {
+            padding: 50px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .info h2 {
+            color: #082D56;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .info p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+
+            nav {
+                margin-top: 10px;
+            }
+
+            .booking form {
+                grid-template-columns: 1fr;
+            }
+
+            .promotion-cards {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+<a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+
+<button class="burger" onclick="toggleMenu()">
+    ☰
+</button>
+<script>
+function toggleMenu() {
+    document.querySelector(".nav").classList.toggle("open");
+}
+</script>
+
+
+<nav class="nav">
+
+    <!-- TOPBAR -->
+    <div class="nav-top">
+        <a href="../de/index.html">DE</a>
+        <a href="../en/index.html">EN</a>
+        <a href="../fr/index.html">FR</a>
+        <a href="login.html">Login</a>
+    </div>
+
+    <!-- MAIN NAV -->
+    <div class="nav-main">
+
+        <div class="dropdown">
+            <span>Infos ▾</span>
+            <div class="dropdown-content">
+                <a href="departure.html">Vor der Abfahrt</a>
+                <a href="train.html">Im Zug</a>
+                <a href="groups.html">Gruppen</a>
+                <a href="passengers-rights.html">Fahrgastrechte</a>
+                <a href="faq.html">FAQ</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span>Fahrpläne & Tarife ▾</span>
+            <div class="dropdown-content">
+                <a href="timetables.htm">Fahrpläne</a>
+                <a href="network.html">Streckennetz</a>
+                <a href="prices.html">Tarife</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span>Reiseziele ▾</span>
+            <div class="dropdown-content">
+                <a href="london.html">London</a>
+                <a href="karlsruhe.html">Karlsruhe</a>
+                <a href="paris.html">Paris</a>
+                <a href="cologne.html">Köln</a>
+                <a href="strasbourg.html">Strasbourg</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span>Aktionen ▾</span>
+            <div class="dropdown-content">
+                <a href="summer-sale.html">Summer Sale</a>
+                <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+            </div>
+        </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+
+    </div>
+</nav>
+</header>
+
+    <section class="hero">
+        <h1>Direkt von Karlsruhe nach London</h1>
+        <p>Erleben Sie komfortable Direktfahrten mit EuroRail One – schnell, bequem und zuverlässig.</p>
+        <a href="index.html#booking"><button>Buchen Sie jetzt</button></a>
+    </section>
+
+    <!-- Slogan -->
+    <div class="slogan">
+        One Trip. One Way. One better choice.
+    </div>
+
+    <footer>
+        &copy; 2026 EuroRail One | 
+        <a href="#">Impressum</a> | 
+        <a href="#">Datenschutz</a> | 
+        <a href="#">Kontakt</a>
+    </footer>
+
+    </body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gruppenreisen – EuroRail One</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        header img {
+            height: 90px;
+        }
+
+        .burger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #082D56;
+                width: 260px;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: 0.3s;
+                z-index: 999;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-main,
+            .nav-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .dropdown {
+            position: relative;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #FFFFFF;
+            color: #082D56;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 14px 18px;
+        }
+
+        .dropdown-content a:hover {
+            background: #F5F5F5;
+            color: #86242F;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* HERO */
+        .hero {
+            background: #86242F;
+            color: #FFFFFF;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 45px;
+        }
+
+        .section h2 {
+            color: #86242F;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: #F8FAFC;
+            border-left: 5px solid #86242F;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .group-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .group-card {
+            background: #FFFFFF;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        .group-card h3 {
+            color: #082D56;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+		
+.contact-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 30px;
+    background-color: #86242F;
+    color: #FFFFFF;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.contact-button:hover {
+    background-color: #FF0000;
+    transform: translateY(-2px);
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+
+    <button class="burger" onclick="toggleMenu()">☰</button>
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMenu() {
+    document.querySelector(".nav").classList.toggle("open");
+}
+</script>
+
+<section class="hero">
+    <h1>Gruppenreisen</h1>
+    <p>
+        Gemeinsam reisen – komfortabel, flexibel und zuverlässig
+        mit EuroRail One
+    </p>
+</section>
+
+<div class="content">
+
+    <div class="section">
+        <h2>Reisen in der Gruppe</h2>
+        <p>
+            Ob Schulklasse, Verein, Firma oder Reisegruppe:
+            EuroRail One bietet maßgeschneiderte Lösungen für
+            Gruppenreisen auf internationalen Strecken.
+        </p>
+        <p>
+            Unsere Direktverbindungen zwischen Karlsruhe, Strasbourg,
+            Paris, Köln und London sind ideal für gemeinsame Reisen
+            jeder Art.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Für wen sind Gruppenangebote verfügbar?</h2>
+
+        <div class="group-types">
+            <div class="group-card">
+                <h3>Schulklassen & Bildungseinrichtungen</h3>
+                <ul>
+                    <li>Attraktive Gruppentarife</li>
+                    <li>Reservierte Sitzbereiche</li>
+                    <li>Unterstützung bei Grenzformalitäten</li>
+                </ul>
+            </div>
+
+            <div class="group-card">
+                <h3>Vereine & Reisegruppen</h3>
+                <ul>
+                    <li>Gemeinsame Sitzplatzreservierung</li>
+                    <li>Flexible Reisezeiten</li>
+                    <li>Optionale Serviceleistungen</li>
+                </ul>
+            </div>
+
+            <div class="group-card">
+                <h3>Firmen & Geschäftsreisen</h3>
+                <ul>
+                    <li>Rechnungskauf möglich</li>
+                    <li>Ruhige Wagenbereiche</li>
+                    <li>Planbare Großkontingente</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Gruppengröße</h2>
+        <div class="info-box">
+            Gruppenangebote gelten ab <strong>10 Personen</strong>.
+            Für sehr große Gruppen erstellen wir individuelle Angebote.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Reservierung & Buchung</h2>
+        <p>
+            Gruppenreisen können nicht über den regulären Online-Ticketverkauf
+            gebucht werden.
+        </p>
+        <p>
+            Bitte kontaktieren Sie unseren Gruppenservice frühzeitig,
+            idealerweise mehrere Wochen vor der geplanten Abfahrt.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Wichtige Hinweise für internationale Gruppen</h2>
+        <ul>
+            <li>Gültige Reisedokumente für alle Teilnehmenden erforderlich</li>
+            <li>Namenslisten können notwendig sein</li>
+            <li>Zusätzliche Vorlaufzeiten für Grenzkontrollen einplanen</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Unser Service für Gruppen</h2>
+        <p>
+            Unser erfahrenes Team unterstützt Sie bei der Planung
+            und Durchführung Ihrer Gruppenreise – von der Anfrage
+            bis zur Ankunft.
+        </p>
+    </div>
+	
+	<br>
+	
+	<div class="section" style="text-align:center;">
+    <h2>Interesse an einer Gruppenreise?</h2>
+    <p>
+        Kontaktieren Sie unser Team – wir erstellen Ihnen gerne
+        ein individuelles Angebot.
+    </p>
+
+    <a href="#" class="contact-button">
+        Jetzt Kontakt aufnehmen
+    </a>
+	
+	</div>
+
+	
+</div>
+
+<footer>
+    &copy; 2026 EuroRail One |
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a> |
+    <a href="#">Kontakt</a>
+</footer>
+
+</body>
+</html>

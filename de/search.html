@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroRail One – Verbindungen</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Montserrat',sans-serif;color:#082D56;background:#fff;}
+a{text-decoration:none;color:inherit;}
+
+header{
+    background:#082D56;color:#fff;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:15px 50px;
+}
+header img{height:100px;}
+nav a{margin-left:25px;font-weight:600;}
+
+.hero{
+    background:#86242F;color:#fff;
+    text-align:center;padding:60px 20px;
+}
+
+.results{
+    max-width:950px;margin:-40px auto 40px;
+    background:#fff;padding:30px;border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    border:1px solid #E5E7EB;
+}
+
+.summary{
+    background:#F8FAFC;padding:15px;border-radius:8px;
+    margin-bottom:15px;font-weight:600;
+    text-align:center;
+}
+
+.notice{
+    background:#FEF3C7;
+    border-left:5px solid #F59E0B;
+    padding:15px;
+    border-radius:8px;
+    font-weight:600;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.error{
+    background:#FFCCCC;
+    border-left:5px solid #86242F;
+    padding:20px;border-radius:8px;
+    font-weight:700;color:#86242F;
+    text-align:center;
+}
+
+.connection{
+    border-radius:12px;
+    padding:18px;
+    margin-bottom:15px;
+    display:flex;justify-content:space-between;
+    flex-wrap:wrap;align-items:center;
+    transition: transform 0.2s;
+    background:#F8FAFC;
+}
+
+.connection:hover:not(.disabled){transform:translateY(-3px);}
+
+.train{
+    font-weight:700;
+    font-size:1.1rem;
+    margin-bottom:5px;
+    padding:4px 10px;
+    border-radius:6px;
+    display:inline-block;
+    color:#fff;
+}
+
+.train.blue{background:#1E3A8A;} /* Blue / Express */
+.train.red{background:#B91C1C;} /* Red */
+
+.time, .route, .duration{
+    margin:2px 0;
+}
+
+button{
+    padding:10px 18px;
+    border:none;border-radius:6px;
+    cursor:pointer;font-weight:600;
+    color:#fff;background:#86242F;
+    transition:0.2s;
+}
+button:hover:not(:disabled){background:#FF0000;}
+button:disabled{background:#CBD5E1;cursor:not-allowed;color:#666;}
+
+.connection.disabled{opacity:0.5;}
+
+#no_connection{
+    text-align:center;
+}
+#no_connection img{
+    margin-top:15px;
+    max-width:150px;
+}
+
+footer{
+    background:#082D56;color:#fff;
+    text-align:center;padding:30px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+</header>
+
+<section class="hero">
+<h1>Verfügbare Verbindungen</h1>
+</section>
+
+<section class="results">
+<div class="summary" id="summary"></div>
+<div id="notice"></div>
+<div id="content"></div>
+<br>
+<button onclick="history.back()">Nochmal Versuchen</button>
+</section>
+
+<footer>
+&copy; 2026 EuroRail One
+</footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const dep = params.get("departure");
+const dest = params.get("destination");
+const dateStr = params.get("date");
+const travelClass = params.get("class");
+const adults = params.get("adults");
+const children = params.get("children");
+const seniors = params.get("seniors");
+
+// Datum prüfen
+const today = new Date();
+today.setHours(0,0,0,0);
+const chosenDate = new Date(dateStr);
+
+const content = document.getElementById("content");
+const notice = document.getElementById("notice");
+
+document.getElementById("summary").innerHTML =
+`${dep} → ${dest}<br>Datum: ${dateStr}`;
+
+// Warnhinweise
+if(dest.includes("London")) {
+    notice.innerHTML = `<div class="notice">Für die Fahrt nach Großbritannien sind Pass- und Zollkontrollen notwendig. Seien Sie spätestens eine Stunde vor Abfahrt am Bahnhof!</div>`;
+} else if(dep.includes("London")) {
+    notice.innerHTML = `<div class="notice">Für die Fahrt in die EU sind Pass- und Zollkontrollen notwendig. Seien Sie spätestens eine Stunde vor Abfahrt am Bahnhof!</div>`;
+}
+
+// Past date check
+if(chosenDate < today){
+    content.innerHTML = `
+    <div class="error">
+        Ups, dieser Zug ist schon abgefahren.<br>
+        Das ausgewählte Datum liegt in der Vergangenheit.
+    </div>`;
+    throw new Error("Past date");
+}
+
+// Fahrplandaten
+const schedules = {
+"Karlsruhe Hbf-London St. Pancras":[
+["EuRO X","07:00","Direkt","4:55 h"],
+["EuRO Blue","08:00","via Strasbourg, Paris","5:15 h"],
+["EuRO Red","09:00","via Köln","6:17 h"],
+["EuRO Blue","10:00","via Strasbourg, Paris","5:15 h"],
+["EuRO X","11:00","Direkt","4:55 h"],
+["EuRO Blue","12:00","via Strasbourg, Paris","5:15 h"],
+["EuRO Red","13:00","via Köln","6:17 h"],
+["EuRO Blue","14:00","via Strasbourg, Paris","5:15 h"],
+["EuRO X","15:00","Direkt","4:55 h"],
+["EuRO Blue","16:00","via Strasbourg, Paris","5:15 h"],
+["EuRO Red","17:00","via Köln","6:17 h"],
+["EuRO Blue","18:00","via Strasbourg, Paris","5:15 h"]
+],
+"Strasbourg-London St. Pancras":[
+["EuRO Blue","08:45","","4:30 h"],
+["EuRO Blue","10:45","","4:30 h"],
+["EuRO Blue","12:45","","4:30 h"],
+["EuRO Blue","14:45","","4:30 h"],
+["EuRO Blue","16:45","","4:30 h"],
+["EuRO Blue","18:45","","4:30 h"]
+],
+"Paris Charles de Gaulle TGV-London St. Pancras":[
+["EuRO Blue","07:15","","2:30 h"],
+["EuRO Blue","10:45","","2:30 h"],
+["EuRO Blue","12:45","","2:30 h"],
+["EuRO Blue","14:45","","2:30 h"],
+["EuRO Blue","16:45","","2:30 h"],
+["EuRO Blue","18:45","","2:30 h"],
+["EuRO Blue","20:45","","2:30 h"]
+],
+"Köln Hbf-London St. Pancras":[
+["EuRO Red","11:10","","4:07 h"],
+["EuRO Red","15:10","","4:07 h"],
+["EuRO Red","19:10","","4:07 h"]
+],
+"London St. Pancras-Karlsruhe Hbf":[
+["EuRO Blue","06:30","via Paris, Strasbourg","5:15 h"],
+["EuRO X","07:50","Direkt","4:55 h"],
+["EuRO Blue","08:30","via Paris, Strasbourg","5:15 h"],
+["EuRO Red","08:37","via Köln","6:08 h"],
+["EuRO Blue","10:30","via Paris, Strasbourg","5:15 h"],
+["EuRO X","11:50","Direkt","4:55 h"],
+["EuRO Blue","12:30","via Paris, Strasbourg","5:15 h"],
+["EuRO Red","12:37","via Köln","6:08 h"],
+["EuRO Blue","14:30","via Paris, Strasbourg","5:15 h"],
+["EuRO X","15:50","Direkt","4:55 h"],
+["EuRO Blue","16:30","via Paris, Strasbourg","5:15 h"],
+["EuRO Red","16:37","via Köln","6:08 h"]
+],
+"London St. Pancras-Paris Charles de Gaulle TGV":[
+["EuRO Blue","06:30","","2:30 h"],
+["EuRO Blue","08:30","","2:30 h"],
+["EuRO Blue","10:30","","2:30 h"],
+["EuRO Blue","12:30","","2:30 h"],
+["EuRO Blue","14:30","","2:30 h"],
+["EuRO Blue","16:30","","2:30 h"],
+["EuRO Blue","18:30","Direkt","2:30 h"]
+],
+"London St. Pancras-Strasbourg":[
+["EuRO Blue","06:30","","4:30 h"],
+["EuRO Blue","08:30","","4:30 h"],
+["EuRO Blue","10:30","","4:30 h"],
+["EuRO Blue","12:30","","4:30 h"],
+["EuRO Blue","14:30","","4:30 h"],
+["EuRO Blue","16:30","","4:30 h"]
+],
+"London St. Pancras-Köln Hbf":[
+["EuRO Red","08:37","","4:03 h"],
+["EuRO Red","12:37","","4:03 h"],
+["EuRO Red","16:37","","4:03 h"]
+]
+};
+
+function timeToDate(timeStr){
+    const [h,m] = timeStr.split(":").map(Number);
+    const d = new Date(chosenDate);
+    d.setHours(h,m,0,0);
+    return d;
+}
+
+const key = `${dep}-${dest}`;
+const list = schedules[key];
+
+if(!list || list.length===0){
+    content.innerHTML = `
+    <div id="no_connection">
+        Selbst Henry konnte keine passende Verbindung für dich finden.<br>
+        <img src="sad_henry.png" alt="Sad Henry">
+    </div>`;
+} else {
+    const now = new Date();
+    list.forEach(t=>{
+        let trainType = (t[0].includes("Red")) ? "red" : "blue";
+        let depTime = timeToDate(t[1]);
+        let disabled = false;
+
+        if(chosenDate.toDateString() === today.toDateString()){
+            if(depTime - now < 60*60*1000){ // <1h
+                disabled = true;
+            }
+        }
+
+        const urlParams = new URLSearchParams({
+            departure: dep,
+            destination: dest,
+            date: dateStr,
+            class: travelClass,
+            adults: adults,
+            children: children,
+            seniors: seniors,
+            train: t[0],
+            depTime: t[1],
+            route: t[2],
+            duration: t[3]
+        });
+
+        content.innerHTML += `
+        <div class="connection ${disabled ? "disabled" : ""}">
+            <div>
+                <span class="train ${trainType}">${t[0]}</span>
+                <div class="time">${t[1]} – ${dest}</div>
+                <div class="route">${t[2] || "Direkt"}</div>
+                <div class="duration">Dauer: ${t[3]}</div>
+            </div>
+            <button ${disabled ? "disabled" : ""} onclick="location.href='book.html?'+encodeURI('${urlParams}')">Buchen</button>
+        </div>`;
+    });
+}
+</script>
+
+</body>
+</html>

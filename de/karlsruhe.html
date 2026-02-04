@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiseziel Karlsruhe – EuroRail One</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        header img {
+            height: 100px;
+        }
+
+        .burger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #082D56;
+                width: 250px;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: 0.3s;
+                z-index: 999;
+                flex-direction: column;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-main,
+            .nav-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+            }
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .dropdown {
+            position: relative;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #FFF;
+            color: #082D56;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 14px 18px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* HERO */
+        .hero {
+            position: relative;
+            background: #86242F;
+            color: #FFF;
+            text-align: center;
+            padding: 80px 20px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("https://cdn.pixabay.com/photo/2016/07/24/22/01/karlsruhe-1539376_1280.jpg") center/cover no-repeat;
+            opacity: 0.4;
+        }
+
+        .hero * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .hero button {
+            padding: 12px 25px;
+            background: #FFF;
+            color: #86242F;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #FF0000;
+            color: #FFF;
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .content h2 {
+            color: #082D56;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* HIGHLIGHTS */
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .highlight-card {
+            background: #FFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 280px;
+            text-align: center;
+        }
+
+        .highlight-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .highlight-card h3 {
+            color: #86242F;
+            margin-bottom: 10px;
+        }
+
+        .highlight-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        @media(max-width:768px) {
+            .highlights {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+    <script>
+        function toggleMenu() {
+            document.querySelector(".nav").classList.toggle("open");
+        }
+    </script>
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Karlsruhe – Tor nach Europa</h1>
+    <p>Starten Sie Ihre internationale Reise komfortabel ab Karlsruhe Hbf mit EuroRail One.</p>
+    <a href="index.html#booking"><button>Jetzt Reise planen</button></a>
+</section>
+
+<section class="content">
+    <h2>Willkommen in Karlsruhe</h2>
+    <p>
+        Karlsruhe ist bekannt für seine einzigartige Fächerstadt-Struktur, hohe Lebensqualität
+        und als wichtiger Verkehrsknoten im Südwesten Deutschlands. Die Stadt verbindet
+        Innovation, Kultur und kurze Wege. Sie ist zudem bekannt als Sitz des Bundesgerichtshofs von Deutschland.
+    </p>
+
+    <p>
+        EuroRail One bringt Sie direkt von London Nach Karlsruhe ins Herz von Baden
+         - schnell, bequem
+        und umweltfreundlich.
+    </p>
+
+    <h2>Sehenswürdigkeiten & Highlights</h2>
+
+    <div class="highlights">
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2015/07/15/16/35/karlsruhe-846639_1280.jpg" alt="Schloss Karlsruhe">
+            <h3>Schloss Karlsruhe</h3>
+            <p>Barockes Wahrzeichen der Stadt und Mittelpunkt der fächerförmigen Stadtstruktur.</p>
+        </div>
+
+        <div class="highlight-card">
+            <img src="https://images.pexels.com/photos/172488/pexels-photo-172488.jpeg" alt="Zentrum Karlsruhe">
+            <h3>Zentrum & Marktplatz</h3>
+            <p>Lebendiges Stadtzentrum mit Einkaufsmöglichkeiten, Cafés und Kultur.</p>
+        </div>
+
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2023/07/24/18/22/schnitzel-8147627_960_720.jpg" alt="Badisches Essen">
+            <h3>Badische Kultur & Essen</h3>
+            <p>Badische Kultur genießen: entspannt, herzlich und voller Genuss – von knusprigen Brägele bis zum Spitzenwein aus der Region.</p>
+        </div>
+
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2020/07/13/14/48/karlsruhe-5400977_1280.jpg" alt="Schlossgarten">
+            <h3>Natur & Erholung</h3>
+            <p>Weitläufige Parks und der Schlossgarten laden zum Entspannen mitten in der Stadt ein.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2026 EuroRail One |
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a> |
+    <a href="#">Kontakt</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>EuroRail One – Souvenir Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --white: #FFFFFF;
+            --blue: #082D56;
+            --dark-red: #86242F;
+            --red: #FF0000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--white);
+            color: var(--blue);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--blue);
+            color: var(--white);
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header img {
+            height: 50px;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: var(--red);
+        }
+
+        .hero {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--blue), var(--dark-red));
+            color: var(--white);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+            color: var(--dark-red);
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            max-height: 180px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--blue);
+        }
+
+        .product-card p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-weight: 700;
+            color: var(--dark-red);
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.4rem;
+            background: var(--dark-red);
+            color: var(--white);
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: var(--red);
+        }
+
+        .about {
+            background: #f7f7f7;
+            border-radius: 16px;
+            padding: 3rem;
+        }
+
+        .about p {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        footer {
+            background: var(--blue);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        footer span {
+            color: var(--red);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="euro_logo.png" alt="EuroRail One Logo">
+    <nav>
+        <a href="#shop">Shop</a>
+        <a href="#about">Über uns</a>
+        <a href="#kontakt">Kontakt</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>EuroRail One Souvenir Shop</h1>
+    <p>Exklusive Erinnerungsstücke an internationale Zugreisen zwischen Karlsruhe Hbf, Strasbourg, Paris Charles de Gaulle TGV, Köln Hbf und London St. Pancras.</p>
+</section>
+
+<section id="shop">
+    <h2>Beliebte Souvenirs</h2>
+    <div class="products">
+        <div class="product-card">
+            <img src="souvenir_henry.png" alt="EuroRail One T-Shirt">
+            <h3>EuroRail One Henry-Plush</h3>
+            <p>Ein Kuscheltier von Henry dem Corgi-Zugbegleiter.</p>
+            <div class="price">24,90 €</div>
+            <a href="#" class="btn">In den Warenkorb</a>
+        </div>
+
+        <div class="product-card">
+            <img src="souvenir_mug.jpeg" alt="EuroRail One Tasse">
+            <h3>Reise-Tasse</h3>
+            <p>Perfekt für Kaffee auf langen Zugfahrten.</p>
+            <div class="price">14,90 €</div>
+            <a href="#" class="btn">In den Warenkorb</a>
+        </div>
+
+        <div class="product-card">
+            <img src="souvenir_bag.jpeg" alt="EuroRail One Stoffbeutel">
+            <h3>Stoffbeutel</h3>
+            <p>Nachhaltig, praktisch und stylisch.</p>
+            <div class="price">9,90 €</div>
+            <a href="#" class="btn">In den Warenkorb</a>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <h2>Über EuroRail One</h2>
+    <div class="about">
+        <p>
+            EuroRail One ist ein privates Bahnunternehmen, das internationale Zugverbindungen
+            zwischen Deutschland, Frankreich und dem Vereinigten Königreich anbietet.
+            Unsere Souvenirs stehen für nachhaltiges Reisen, europäische Vernetzung
+            und modernes Bahnfahren.
+        </p>
+    </div>
+</section>
+
+<footer id="kontakt">
+    <p>© 2026 EuroRail One · Reisen verbindet Europa <span>❤</span></p>
+</footer>
+
+</body>
+</html>

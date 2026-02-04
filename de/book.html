@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EuroRail One – Buchung</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Montserrat',sans-serif;color:#082D56;background:#fff;margin:0;padding:0;}
+header{background:#082D56;color:#fff;padding:15px 50px;display:flex;justify-content:space-between;align-items:center;}
+header img{height:100px;}
+nav a{margin-left:25px;font-weight:600;color:#fff;}
+main{max-width:950px;margin:30px auto;padding:20px;background:#F8FAFC;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.08);}
+h1,h2{color:#082D56;margin-bottom:20px;}
+.booking-panel{background:#fff;border-radius:12px;padding:20px;margin-bottom:25px;box-shadow:0 5px 15px rgba(0,0,0,0.05);}
+.booking-line{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding:8px 0;border-bottom:1px solid #E5E7EB;}
+.booking-line:last-child{border:none;}
+.train-blue{color:#1E40AF;font-weight:700;font-size:1.1rem;}
+.train-red{color:#B91C1C;font-weight:700;font-size:1.1rem;}
+.price-line{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #E5E7EB;}
+.price-line:last-child{border:none;}
+.original-price{text-decoration:line-through;color:#888;margin-right:8px;}
+.discount-price{color:#B91C1C;font-weight:700;}
+input[type="text"], input[type="number"]{padding:10px;border-radius:6px;border:1px solid #CBD5E1;width:100%;margin-top:6px;margin-bottom:12px;}
+input[type="checkbox"]{margin-right:10px;}
+button{padding:12px 25px;background:#86242F;color:#fff;border:none;border-radius:6px;font-weight:600;cursor:pointer;transition:0.2s;margin-top:10px;}
+button:hover{background:#FF0000;}
+.notice{background:#FEF3C7;border-left:5px solid #F59E0B;padding:15px;border-radius:8px;margin-bottom:20px;font-weight:600;text-align:center;}
+</style>
+</head>
+<body>
+<header>
+<a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+</header>
+
+<main>
+<h1>Buchung abschließen</h1>
+
+<div class="notice" id="notice">Bitte prüfen Sie Ihre Buchung sorgfältig.</div>
+
+<div class="booking-panel" id="booking-info"></div>
+<div class="booking-panel prices" id="prices"></div>
+
+<div class="booking-panel">
+<label><input type="checkbox" id="mobility">Mobilitätseingeschränkte Person</label>
+</div>
+
+<div class="booking-panel">
+<label>Rabattcode eingeben:</label>
+<input type="text" id="discountCode" placeholder="Code eingeben">
+<button onclick="applyDiscount()">Rabatt anwenden</button>
+</div>
+
+<h2>Gesamtsumme: <span id="totalPrice">0€</span></h2>
+
+<button onclick="confirmBooking()">Jetzt buchen</button>
+
+<script>
+// Parameter dekodieren
+const params = new URLSearchParams(window.location.search);
+const dep = decodeURIComponent(params.get("departure")||"");
+const dest = decodeURIComponent(params.get("destination")||"");
+const dateStr = decodeURIComponent(params.get("date")||"");
+const travelClass = decodeURIComponent(params.get("class")||"Relax");
+const adults = parseInt(params.get("adults"))||0;
+const children = parseInt(params.get("children"))||0;
+const seniors = parseInt(params.get("seniors"))||0;
+const train = decodeURIComponent(params.get("train")||"");
+const depTime = decodeURIComponent(params.get("depTime")||"");
+const route = decodeURIComponent(params.get("route")||"");
+const duration = decodeURIComponent(params.get("duration")||"");
+
+// Basispreise
+const basePrices = {
+"Karlsruhe Hbf-London St. Pancras":145,
+"London St. Pancras-Karlsruhe Hbf":145,
+"Strasbourg-London St. Pancras":132,
+"London St. Pancras-Strasbourg":132,
+"Paris Charles de Gaulle TGV-London St. Pancras":105,
+"London St. Pancras-Paris Charles de Gaulle TGV":105,
+"Köln Hbf-London St. Pancras":113,
+"London St. Pancras-Köln Hbf":113
+};
+
+// Rabattcodes
+const discountCodes = { "SUMMER10":10, "FIRST5":5, "EURO50":50 };
+
+const today = new Date();
+const travelDate = new Date(dateStr);
+const oneMonth = new Date();
+oneMonth.setMonth(today.getMonth()+1);
+
+// Formatierung Datum
+function formatDate(date){
+    const d = new Date(date);
+    const options = {weekday:'long', day:'2-digit', month:'2-digit', year:'numeric'};
+    return d.toLocaleDateString('de-DE',options);
+}
+
+// Preisberechnung inkl. Aktionen
+function calcPrice(base,type){
+    let price = base;
+    let original = base;
+
+    if(type==="child") price*=0.5;
+    if(type==="senior") price*=0.7;
+
+    if(travelClass==="Enjoyment"){
+        if(dep.includes("Karlsruhe")||dep.includes("Strasbourg")||dest.includes("Karlsruhe")||dest.includes("Strasbourg")) price+=100;
+        else if(dep.includes("Köln")||dep.includes("Paris")||dest.includes("Köln")||dest.includes("Paris")) price+=80;
+    }
+
+    // Frühbucher >1 Monat
+    if(travelDate>oneMonth) price*=0.75;
+
+    // Saisonrabatt bis 15.03.2026
+    const discountDate = new Date("2026-03-15");
+    let specialDiscount = false;
+    if(today<=discountDate) { price*=0.7; specialDiscount=true; }
+
+    // EuRO Red Karlsruhe-London spezielle Aktion
+    if(train.includes("Red") && ((dep.includes("Karlsruhe") && dest.includes("London")) || (dep.includes("London") && dest.includes("Karlsruhe")))){
+        const day = travelDate.getDay();
+        if([1,3,5].includes(day)) { price=30; specialDiscount=true; }
+    }
+
+    return {price:Math.floor(price), original:Math.floor(original), showDiscount:specialDiscount};
+}
+
+const baseKey = `${dep}-${dest}`;
+const basePrice = basePrices[baseKey] || 100;
+let adultPriceList=[], childPriceList=[], seniorPriceList=[], prices=[];
+
+// Linienfarbe
+function getTrainClass(train){ return train.includes("Red")?"train-red":"train-blue"; }
+
+// Preiszeile generieren
+function addPriceLine(person,type){
+    // Ursprungspreis inkl. Kinder/Senioren + 1. Klasse Aufschlag
+    let origPrice = basePrice;
+    if(type==="child") origPrice*=0.5;
+    if(type==="senior") origPrice*=0.7;
+    if(travelClass==="Enjoyment"){
+        if(dep.includes("Karlsruhe")||dep.includes("Strasbourg")||dest.includes("Karlsruhe")||dest.includes("Strasbourg")) origPrice+=100;
+        else if(dep.includes("Köln")||dep.includes("Paris")||dest.includes("Köln")||dest.includes("Paris")) origPrice+=80;
+    }
+    origPrice=Math.floor(origPrice);
+
+    // Aktueller Preis inkl. Aktionen
+    const res = calcPrice(basePrice,type);
+    prices.push(res.price);
+
+    // Einzelpreise
+    if(type==="adult") adultPriceList.push(res.price);
+    if(type==="child") childPriceList.push(res.price);
+    if(type==="senior") seniorPriceList.push(res.price);
+
+    if(res.showDiscount){
+        return `<div class="price-line">
+            <span>${person} (${type})</span>
+            <span><span class="original-price">${origPrice}€</span> <span class="discount-price">${res.price}€</span></span>
+        </div>`;
+    } else {
+        return `<div class="price-line">
+            <span>${person} (${type})</span>
+            <span>${res.price}€</span>
+        </div>`;
+    }
+}
+
+// Buchungsinfo
+let html = `
+<h2>Gewählte Verbindung</h2>
+<div class="${getTrainClass(train)}" style="margin-bottom:8px;">${train}</div>
+<div>Datum: ${formatDate(dateStr)}</div>
+<div>Abfahrt: ${depTime} – ${dep}</div>
+<div>Ziel: ${dest}</div>
+<div>Route: ${route||"Direkt"}</div>
+<div>Dauer: ${duration}</div>
+<div>Klasse: ${travelClass}</div>
+<div>Erwachsene: ${adults}, Kinder: ${children}, Senioren: ${seniors}</div>
+`;
+document.getElementById("booking-info").innerHTML=html;
+
+// Preise auflisten
+let priceHTML="<h2>Preise</h2>";
+for(let i=1;i<=adults;i++) priceHTML+=addPriceLine(`Erwachsene ${i}`,"adult");
+for(let i=1;i<=children;i++) priceHTML+=addPriceLine(`Kind ${i}`,"child");
+for(let i=1;i<=seniors;i++) priceHTML+=addPriceLine(`Senior ${i}`,"senior");
+document.getElementById("prices").innerHTML=priceHTML;
+
+// Gesamtsumme
+function updateTotal(){ document.getElementById("totalPrice").textContent = prices.reduce((a,b)=>a+b,0)+"€"; }
+updateTotal();
+
+// Rabattcode
+function applyDiscount(){
+    const code=document.getElementById("discountCode").value.trim().toUpperCase();
+    if(discountCodes[code]){
+        const discount=discountCodes[code];
+        const sum=Math.max(prices.reduce((a,b)=>a+b,0)-discount,0);
+        document.getElementById("totalPrice").textContent=sum+"€";
+        alert(`Rabatt von ${discount}€ angewendet!`);
+    } else alert("Ungültiger Rabattcode.");
+}
+
+// Buchung bestätigen → Weitergabe an payment.html
+function confirmBooking(){
+    const mobility=document.getElementById("mobility").checked?"ja":"nein";
+    const data=new URLSearchParams({
+        departure:dep,
+        destination:dest,
+        date:dateStr,
+        class:travelClass,
+        adults:adults,
+        children:children,
+        seniors:seniors,
+        train:train,
+        depTime:depTime,
+        route:route,
+        duration:duration,
+        mobility:mobility,
+        total:document.getElementById("totalPrice").textContent,
+        adultPrices:adultPriceList.join(","),
+        childPrices:childPriceList.join(","),
+        seniorPrices:seniorPriceList.join(",")
+    });
+    location.href="payment.html?"+data.toString();
+}
+</script>
+</body>
+</html>

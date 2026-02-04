@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuroRail One</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Grundlegendes Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Header */
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+			position: relative;
+        }
+
+        header img {
+            height: 100px;
+        }
+
+.burger {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 768px) {
+
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .burger {
+        display: block;
+    }
+
+.nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #082D56;
+    width: 250px;
+    padding: 20px;
+
+    transform: translateX(100%);
+    transition: 0.3s;
+    z-index: 999; /* wichtig! */
+}
+
+    .nav.open {
+        transform: translateX(0);
+    }
+
+    .nav-main,
+    .nav-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dropdown-content {
+        position: static;
+        box-shadow: none;
+    }
+}
+
+
+
+
+.nav {
+    display: flex;
+    flex-direction: column;
+}
+
+/* TOPBAR */
+.nav-top {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+/* MAIN NAV */
+.nav-main {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+        nav a {
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #86242F;
+        }
+
+/* DROPDOWNS – verbessert */
+.dropdown{
+    position:relative;
+    font-weight:600;
+    cursor:pointer;
+    padding:10px 5px;
+}
+
+.dropdown span{
+    display:inline-block;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    background:#FFF;
+    color:#082D56;
+    min-width:220px;
+    border-radius:8px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
+    overflow:hidden;
+    z-index:100;
+}
+
+.dropdown-content a{
+    display:block;
+    padding:14px 18px;
+}
+
+.dropdown-content a:hover{
+    background:#F5F5F5;
+    color:#86242F;
+}
+
+.dropdown:hover .dropdown-content,
+.dropdown:focus-within .dropdown-content{
+    display:block;
+}
+
+
+
+/* HERO */
+.hero{
+    position:relative;
+    background:#86242F;
+    color:#FFF;
+    text-align:center;
+    padding:80px 20px;
+    overflow:hidden;
+    z-index:1;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url("train.png") center/cover no-repeat;
+    opacity:0.4;
+    z-index:0;
+}
+
+.hero *{
+    position:relative;
+    z-index:1;
+}
+
+.hero h1{font-size:3rem;margin-bottom:20px;}
+.hero p{font-size:1.2rem;margin-bottom:30px;}
+
+.hero button{
+    padding:12px 25px;
+    background:#FFF;
+    color:#86242F;
+    border:none;
+    border-radius:6px;
+    font-size:1.1rem;
+    cursor:pointer;
+}
+
+.hero button:hover{
+    background:#FF0000;
+    color:#FFF;
+}
+
+        /* Buchungsbereich */
+        .booking {
+		    position:relative;
+			z-index:5; /* Fix gegen Überlagerung */
+            max-width: 800px;
+            margin: -50px auto 20px;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .booking h2 {
+            color: #082D56;
+            margin-bottom: 20px;
+        }
+
+        .booking form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .booking input, .booking select {
+            padding: 10px;
+            border: 1px solid #082D56;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .booking button {
+            grid-column: span 2;
+            padding: 12px;
+            background-color: #86242F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .booking button:hover {
+            background-color: #FF0000;
+        }
+
+/* ===== Booking – optische Anpassungen ===== */
+
+/* etwas moderneres Panel */
+.booking {
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Inputs etwas cleaner */
+.booking input,
+.booking select {
+    border: 1px solid #CBD5E1;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.booking input:focus,
+.booking select:focus {
+    outline: none;
+    border-color: #86242F;
+    box-shadow: 0 0 0 3px rgba(134,36,47,0.15);
+}
+
+/* ===== Klassenauswahl als Schieberegler ===== */
+
+/* Das ist das erste div im Formular = Klassentoggle */
+.booking form > div:nth-of-type(1) {
+    grid-column: span 2;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #E5E7EB;
+    border-radius: 999px;
+    padding: 4px;
+    overflow: hidden;
+}
+
+/* Radios ausblenden */
+.booking form > div:nth-of-type(1) input[type="radio"] {
+    display: none;
+}
+
+/* Labels als Toggle-Hälften */
+.booking form > div:nth-of-type(1) label {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #082D56;
+    border-radius: 999px;
+    transition: color 0.25s;
+}
+
+/* Der "Slider" */
+.booking form > div:nth-of-type(1)::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    background: #86242F;
+    border-radius: 999px;
+    transition: transform 0.25s ease;
+    z-index: 1;
+}
+
+/* Wenn zweite Option aktiv → Slider nach rechts */
+.booking form > div:nth-of-type(1):has(input[value="Enjoyment"]:checked)::before {
+    transform: translateX(100%);
+}
+
+/* Aktive Schriftfarbe */
+.booking form > div:nth-of-type(1) input:checked + * {
+    color: #FFFFFF;
+}
+
+/* Fallback für Textfarbe (weil Text im Label ist) */
+.booking form > div:nth-of-type(1) label:has(input:checked) {
+    color: #FFFFFF;
+}
+
+/* ===== Reisende-Auswahl (Erwachsene/Kinder/Senioren) ===== */
+
+/* Das ist das zweite div im Formular = Reisende */
+.booking form > div:nth-of-type(2) {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+/* Jede Kategorie als "Karte" */
+.booking form > div:nth-of-type(2) label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #F8FAFC;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #082D56;
+    border: 1px solid #E2E8F0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Number-Inputs moderner */
+.booking form > div:nth-of-type(2) input[type="number"] {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    padding: 8px;
+    background: #FFFFFF;
+}
+
+/* Hover/Fokus-Effekt auf Karten */
+.booking form > div:nth-of-type(2) label:focus-within,
+.booking form > div:nth-of-type(2) label:hover {
+    border-color: #86242F;
+    box-shadow: 0 0 0 3px rgba(134,36,47,0.12);
+}
+
+/* Mobile: untereinander */
+@media(max-width: 768px) {
+    .booking form > div:nth-of-type(2) {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+        /* Slogan */
+        .slogan {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #082D56;
+            margin: 15px 0 40px;
+        }
+
+        /* Betriebsstörungen */
+        .disruptions {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            background-color: #FFCCCC;
+            border-left: 5px solid #86242F;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            color: #86242F;
+        }
+
+        /* Werbeaktionen */
+        .promotions {
+            background-color: #F5F5F5;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .promotions h2 {
+            color: #082D56;
+            margin-bottom: 40px;
+        }
+
+        .promotion-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .promotion-card {
+            background-color: #FFFFFF;
+            padding: 20px;
+            border-radius: 12px;
+            width: 250px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .promotion-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .promotion-card h3 {
+            color: #86242F;
+            margin-bottom: 15px;
+        }
+
+        /* Fahrgastinformationen */
+        .info {
+            padding: 50px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .info h2 {
+            color: #082D56;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .info p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        /* Responsive */
+        @media(max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+
+            nav {
+                margin-top: 10px;
+            }
+
+            .booking form {
+                grid-template-columns: 1fr;
+            }
+
+            .promotion-cards {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+<a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+
+<button class="burger" onclick="toggleMenu()">
+    ☰
+</button>
+<script>
+function toggleMenu() {
+    document.querySelector(".nav").classList.toggle("open");
+}
+</script>
+
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Connexion</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Informations ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Avant le départ</a>
+                    <a href="train.html">À bord du train</a>
+                    <a href="groups.html">Groupes</a>
+                    <a href="passengers-rights.html">Droits des passagers</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Enfants</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Horaires & Tarifs ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Horaires</a>
+                    <a href="network.html">Réseau</a>
+                    <a href="prices.html">Tarifs</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Destinations ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">Londres</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Cologne</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Offres ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Offre d’été</a>
+                    <a href="place-for-the-youth.html">Une place pour la jeunesse</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Boutique</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+    <section class="hero">
+        <h1>Directement de Karlsruhe à Londres</h1>
+        <p>Découvrez des liaisons directes confortables avec EuroRail One – rapides, pratiques et fiables.</p>
+        <a href="#booking"><button>Réserver maintenant</button></a>
+    </section>
+
+<section class="booking" id="booking">
+    <h2>Votre réservation</h2>
+
+    <form id="bookingForm">
+        <!-- Abfahrtsort -->
+        <select id="departure" name="departure" required>
+            <option value="">Choisir la gare de départ</option>
+            <option>Karlsruhe Hbf</option>
+            <option>Strasbourg</option>
+            <option>Köln Hbf</option>
+            <option>Paris Charles de Gaulle TGV</option>
+            <option>London St. Pancras</option>
+        </select>
+
+        <!-- Zielort -->
+        <select id="destination" name="destination" required>
+            <option value="">Choisir la destination</option>
+        </select>
+
+        <!-- Datum -->
+        <input type="date" id="date" name="date" required>
+
+        <!-- Klasse Toggle -->
+        <div>
+            <label>
+                <input type="radio" name="class" value="Relax" checked>
+                2e classe (Relax)
+            </label>
+            <label>
+                <input type="radio" name="class" value="Enjoyment">
+                1re classe (Enjoyment)
+            </label>
+        </div>
+
+        <!-- Reisende -->
+        <div>
+            <label>Adultes :
+                <input type="number" name="adults" min="0" max="10" value="1">
+            </label>
+            <label>Enfants :
+                <input type="number" name="children" min="0" max="10" value="0">
+            </label>
+            <label>Seniors :
+                <input type="number" name="seniors" min="0" max="10" value="0">
+            </label>
+        </div>
+
+        <button type="submit">Vérifier la disponibilité</button>
+    </form>
+</section>
+
+<script>
+const departure = document.getElementById("departure");
+const destination = document.getElementById("destination");
+
+const london = "London St. Pancras";
+const others = [
+    "Karlsruhe Hbf",
+    "Strasbourg",
+    "Köln Hbf",
+    "Paris Charles de Gaulle TGV"
+];
+
+// Zielort dynamisch setzen
+departure.addEventListener("change", () => {
+    destination.innerHTML = '<option value="">Choisir la destination</option>';
+
+    if (others.includes(departure.value)) {
+        let opt = document.createElement("option");
+        opt.value = london;
+        opt.textContent = london;
+        destination.appendChild(opt);
+        destination.value = london;
+    }
+
+    if (departure.value === london) {
+        others.forEach(city => {
+            let opt = document.createElement("option");
+            opt.value = city;
+            opt.textContent = city;
+            destination.appendChild(opt);
+        });
+    }
+});
+
+// Submit → Weiterleitung mit URL Parametern
+document.getElementById("bookingForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const data = new FormData(this);
+    const params = new URLSearchParams(data).toString();
+
+    window.location.href = "search.html?" + params;
+});
+</script>
+
+    <!-- Slogan -->
+    <div class="slogan">
+        One Trip. One Way. One better choice.
+    </div>
+
+    <!-- Betriebsstörungen -->
+    <div class="disruptions" id="disruptions">
+        <!-- Contenu défini par JavaScript -->
+    </div>
+
+	<!-- Eingabefeld für Test-Zeit 
+	<label for="testTime">Sélectionner l’heure de test :</label>
+	<input type="datetime-local" id="testTime">
+	<button onclick="runTest()">Tester</button> -->
+
+    <section class="promotions" id="promotions">
+        <h2>Nos offres</h2>
+        <div class="promotion-cards">
+            <div class="promotion-card">
+                <h3>Réduction réservation anticipée</h3>
+                <p>Réservez 30 jours à l’avance et économisez 25 % sur votre trajet.</p>
+            </div>
+            <div class="promotion-card">
+                <h3>Offre de lancement</h3>
+                <p>Pour le lancement d’EuroRail One, une réduction générale de 30 % s’applique à tous les billets. Certains billets sont disponibles à seulement 30 €.</p>
+            </div>
+            <div class="promotion-card">
+                <h3>Une place pour la jeunesse</h3>
+                <p>Les jeunes jusqu’à 27 ans inclus bénéficient d’offres spéciales.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="info" id="info">
+        <h2>Informations voyageurs</h2>
+        <p><strong>Enregistrement :</strong> L’enregistrement ferme 30 minutes avant le départ. Nous demandons aux passagers d’arriver, si possible, une heure avant le départ.</p>
+        <p><strong>Service à bord :</strong> Notre service à bord propose des repas, des boissons gratuits ainsi qu’un accès Wi-Fi gratuit dans toutes les classes.</p>
+        <p><strong>Bagages :</strong> Il n’y a aucune limite de bagages dans les trains EuroRail One. Toutefois, nous vous demandons de déclarer les bagages dépassant la taille de deux grandes valises aériennes.</p>
+        <p><strong>Accessibilité :</strong> Nos trains sont accessibles aux personnes à mobilité réduite et proposent des places spéciales pour les voyageurs ayant des besoins particuliers. L’assistance mobilité peut être demandée facilement lors de la réservation. Vous n’avez rien à faire – nous vous contacterons.</p>
+        <p><strong>Retards :</strong> En cas de retard, nous vous informerons immédiatement via notre site web, notre application, par e-mail ou en gare.</p>
+    </section>
+
+    <footer>
+        &copy; 2026 EuroRail One | 
+        <a href="#">Mentions légales</a> | 
+        <a href="#">Protection des données</a> | 
+        <a href="#">Contact</a>
+    </footer>
+
+    <!-- JavaScript für Betriebsstörungen -->
+    <script>
+		const disruptionsElement = document.getElementById("disruptions");
+
+		const disruptions = [
+			"Perturbation du service – retard de 15 minutes sur la liaison Karlsruhe – Cologne – Londres.",
+			"Travaux entre Mannheim et Francfort – retards possibles.",
+			"Fermeture de ligne entre Mannheim et Francfort – les trains sont déviés. Des retards allant jusqu’à 30 minutes sont à prévoir.",
+			"Disponibilité limitée des voies en raison de travaux de maintenance à Londres St. Pancras – retards possibles.",
+			"Incident dans le tunnel sous la Manche – retards possibles.",
+			"Travaux à Cologne – les trains à destination de Londres sont déviés. L’arrêt à Cologne est supprimé.<br>Les trains en direction de Karlsruhe s’arrêteront à titre de remplacement à Siegburg/Bonn et à la gare longue distance de l’aéroport de Francfort. Les billets sont valables dans le réseau de transport Rhin-Sieg ainsi que dans les ICE entre Siegburg et Cologne Messe/Deutz."
+		];
+
+// Hash-Funktion: aus einer Zahl eine deterministische Zahl zwischen 0 und 1
+function hashNumber(n) {
+    let x = Math.sin(n) * 10000;
+    return x - Math.floor(x);
+}
+
+// Deterministisches Shuffle
+function shuffleDeterministic(array, seed) {
+    const arr = [...array];
+    return arr.sort((a, b) => hashNumber(seed + a.length + b.length) - 0.5);
+}
+
+// Hauptfunktion
+function showRandomDisruptions(testDate = null) {
+    const now = testDate || new Date(); // Wenn Test-Zeit vorhanden, nutze sie, sonst echte Zeit
+
+    // Seed aus Jahr, Monat, Tag, Stunde
+    const seed = now.getFullYear() * 1000000 + 
+                 (now.getMonth() + 1) * 10000 + 
+                 now.getDate() * 100 + 
+                 now.getHours();
+
+    // 50% Chance auf "Keine Beeinträchtigungen"
+    if (hashNumber(seed) < 0.5) {
+        disruptionsElement.textContent = "Aucune perturbation";
+        return;
+    }
+
+    // Anzahl der Meldungen (1–2) stündlich deterministisch
+    const num = Math.floor(hashNumber(seed + 1) * 2) + 1;
+
+    // Deterministisches Mischen
+    const shuffled = shuffleDeterministic(disruptions, seed + 2);
+
+    // Auswahl der ersten num Meldungen
+    const selected = shuffled.slice(0, num);
+
+    // Anzeigen im HTML
+    disruptionsElement.innerHTML = selected.join("<br><br>");
+}
+
+// Funktion, die beim Button-Klick ausgeführt wird
+function runTest() {
+    const input = document.getElementById("testTime").value;
+    if (input) {
+        showRandomDisruptions(new Date(input));
+    } else {
+        showRandomDisruptions();
+    }
+}
+
+// Zeige beim Laden direkt die reale Zeit
+showRandomDisruptions();
+        // Optional: alle 60 Sekunden aktualisieren
+        // setInterval(showRandomDisruptions, 60000);
+    </script>
+</body>
+</html>

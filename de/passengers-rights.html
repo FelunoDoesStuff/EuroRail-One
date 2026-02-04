@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fahrgastrechte – EuroRail One</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        header img {
+            height: 90px;
+        }
+
+        .burger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #082D56;
+                width: 260px;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: 0.3s;
+                z-index: 999;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-main,
+            .nav-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .dropdown {
+            position: relative;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #FFFFFF;
+            color: #082D56;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 14px 18px;
+        }
+
+        .dropdown-content a:hover {
+            background: #F5F5F5;
+            color: #86242F;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* HERO */
+        .hero {
+            background: #86242F;
+            color: #FFFFFF;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.7rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* CONTENT */
+        .content {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 45px;
+        }
+
+        .section h2 {
+            color: #86242F;
+            margin-bottom: 15px;
+        }
+
+        .section p {
+            line-height: 1.7;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+
+        .info-box {
+            background: #F8FAFC;
+            border-left: 5px solid #86242F;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        /* FORMULAR */
+        .form-box {
+            background: #FFFFFF;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-box form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-box input,
+        .form-box select,
+        .form-box textarea {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #CBD5E1;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-box textarea {
+            grid-column: span 2;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-box button {
+            grid-column: span 2;
+            padding: 14px;
+            background-color: #86242F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-box button:hover {
+            background-color: #FF0000;
+        }
+
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        @media(max-width: 768px) {
+            .form-box form {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                    <a href="children.html">Kinder</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+			
+			<div class="dropdown">
+				<a href="shop.html">Shop</a>
+			</div>
+			
+        </div>
+    </nav>
+</header>
+
+<script>
+function toggleMenu() {
+    document.querySelector(".nav").classList.toggle("open");
+}
+</script>
+
+<section class="hero">
+    <h1>Ihre Fahrgastrechte</h1>
+    <p>
+        Bei EuroRail One stehen Sie im Mittelpunkt.
+        Wir gehen über die gesetzlichen Mindeststandards hinaus.
+    </p>
+</section>
+
+<div class="content">
+
+    <div class="section">
+        <h2>Unsere Philosophie</h2>
+        <p>
+            EuroRail One orientiert sich an den europäischen Fahrgastrechten,
+            setzt jedoch bewusst auf kulante, serviceorientierte Lösungen.
+        </p>
+        <div class="info-box">
+            Unser Ziel: Sie kümmern sich um Ihre Reise –
+            wir kümmern uns um den Rest.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Bei Verspätung oder Zugausfall</h2>
+        <ul>
+            <li>Ab 60 Minuten Verspätung: Anspruch auf alternative Beförderung oder Erstattung</li>
+            <li>Kostenlose Umbuchung auf den nächsten verfügbaren EuroRail-One-Zug</li>
+            <li>Auf Wunsch Rückerstattung des nicht genutzten Tickets</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Unterstützung vor Ort – ohne Vorkasse</h2>
+        <p>
+            Bei erheblichen Verspätungen oder Ausfällen lassen wir Sie nicht allein.
+        </p>
+        <ul>
+            <li>Hotelübernachtungen werden durch unser Personal organisiert</li>
+            <li>Taxi- oder Ersatztransporte werden direkt vermittelt</li>
+            <li>Keine Vorkasse für notwendige Leistungen</li>
+        </ul>
+        <div class="info-box">
+            Unsere Mitarbeitenden im Zug und am Bahnhof helfen Ihnen aktiv weiter.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Betreuung während der Wartezeit</h2>
+        <ul>
+            <li>Getränke und Snacks bei längeren Wartezeiten</li>
+            <li>Informationen in verständlicher und transparenter Form</li>
+            <li>Unterstützung für mobilitätseingeschränkte Fahrgäste</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Entschädigung</h2>
+        <ul>
+            <li>25 % des Ticketpreises ab 60 Minuten Verspätung</li>
+            <li>50 % des Ticketpreises ab 120 Minuten Verspätung</li>
+            <li>Großzügige Einzelfalllösungen bei außergewöhnlichen Umständen</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Schnelle Beantragung Ihrer Fahrgastrechte</h2>
+        <div class="form-box">
+            <form>
+                <input type="text" placeholder="Vor- und Nachname" required>
+                <input type="email" placeholder="E-Mail-Adresse" required>
+                <input type="text" placeholder="Ticketnummer">
+                <input type="date">
+
+                <select>
+                    <option>Art des Anliegens</option>
+                    <option>Verspätung</option>
+                    <option>Zugausfall</option>
+                    <option>Verpasster Anschluss</option>
+                    <option>Sonstiges</option>
+                </select>
+
+                <select>
+                    <option>Strecke</option>
+                    <option>Karlsruhe – London</option>
+                    <option>London – Karlsruhe</option>
+                </select>
+
+                <textarea placeholder="Schildern Sie kurz Ihr Anliegen"></textarea>
+
+                <button type="submit">
+                    Antrag absenden
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    &copy; 2026 EuroRail One |
+    <a href="#">Impressum</a> |
+    <a href="#">Datenschutz</a> |
+    <a href="#">Kontakt</a>
+</footer>
+
+</body>
+</html>

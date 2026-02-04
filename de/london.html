@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiseziel London – EuroRail One</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFFFFF;
+            color: #082D56;
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            background-color: #082D56;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 50px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        header img {
+            height: 100px;
+        }
+
+        .burger {
+            display: none;
+            font-size: 28px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .burger {
+                display: block;
+            }
+
+            .nav {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background: #082D56;
+                width: 250px;
+                padding: 20px;
+                transform: translateX(100%);
+                transition: 0.3s;
+                z-index: 999;
+                flex-direction: column;
+            }
+
+            .nav.open {
+                transform: translateX(0);
+            }
+
+            .nav-main, .nav-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .dropdown-content {
+                position: static;
+                box-shadow: none;
+            }
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-top {
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-main {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .dropdown {
+            position: relative;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #FFF;
+            color: #082D56;
+            min-width: 220px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            overflow: hidden;
+            z-index: 100;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 14px 18px;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            background: #86242F;
+            color: #FFF;
+            text-align: center;
+            padding: 80px 20px;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("https://images.pexels.com/photos/800532/pexels-photo-800532.jpeg") center/cover no-repeat;
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .hero * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .hero button {
+            padding: 12px 25px;
+            background: #FFF;
+            color: #86242F;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .hero button:hover {
+            background: #FF0000;
+            color: #FFF;
+        }
+
+        /* Content */
+        .content {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .content h2 {
+            color: #082D56;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content p {
+            line-height: 1.7;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        /* Sehenswürdigkeiten */
+        .highlights {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .highlight-card {
+            background: #FFF;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 280px;
+            text-align: center;
+        }
+
+        .highlight-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .highlight-card h3 {
+            color: #86242F;
+            margin-bottom: 10px;
+        }
+
+        .highlight-card p {
+            color: #082D56;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        footer {
+            background-color: #082D56;
+            color: #FFFFFF;
+            padding: 30px 50px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #FF0000;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        @media(max-width:768px) {
+            .highlights {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a href="index.html"><img src="euro_logo.png" alt="EuroRail One Logo"></a>
+    <button class="burger" onclick="toggleMenu()">☰</button>
+    <script>
+        function toggleMenu() {
+            document.querySelector(".nav").classList.toggle("open");
+        }
+    </script>
+    <nav class="nav">
+        <div class="nav-top">
+            <a href="../de/index.html">DE</a>
+            <a href="../en/index.html">EN</a>
+            <a href="../fr/index.html">FR</a>
+            <a href="login.html">Login</a>
+        </div>
+        <div class="nav-main">
+            <div class="dropdown">
+                <span>Infos ▾</span>
+                <div class="dropdown-content">
+                    <a href="departure.html">Vor der Abfahrt</a>
+                    <a href="train.html">Im Zug</a>
+                    <a href="groups.html">Gruppen</a>
+                    <a href="passengers-rights.html">Fahrgastrechte</a>
+                    <a href="faq.html">FAQ</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Fahrpläne & Tarife ▾</span>
+                <div class="dropdown-content">
+                    <a href="timetables.html">Fahrpläne</a>
+                    <a href="network.html">Streckennetz</a>
+                    <a href="prices.html">Tarife</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Reiseziele ▾</span>
+                <div class="dropdown-content">
+                    <a href="london.html">London</a>
+                    <a href="karlsruhe.html">Karlsruhe</a>
+                    <a href="paris.html">Paris</a>
+                    <a href="cologne.html">Köln</a>
+                    <a href="strasbourg.html">Strasbourg</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <span>Aktionen ▾</span>
+                <div class="dropdown-content">
+                    <a href="summer-sale.html">Summer Sale</a>
+                    <a href="place-for-the-youth.html">Ein Platz für die Jugend</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Entdecken Sie London</h1>
+    <p>Erleben Sie die pulsierende Metropole an der Themse – einfach und komfortabel mit EuroRail One.</p>
+    <a href="index.html#booking"><button>Buchen Sie Ihre Fahrt</button></a>
+</section>
+
+<section class="content">
+    <h2>Willkommen in London</h2>
+    <p>
+        London ist eine der faszinierendsten Städte Europas, reich an Geschichte, Kultur und modernen Attraktionen. 
+        Vom weltberühmten Big Ben und dem Tower of London bis hin zu den exklusiven Shops auf der Oxford Street – 
+        die Stadt bietet für jeden Reisenden etwas Besonderes.
+    </p>
+
+    <p>
+        Mit EuroRail One erreichen Sie London direkt und bequem von Karlsruhe, Strasbourg, Paris oder Köln. 
+        Genießen Sie die Fahrt durch wunderschöne Landschaften und starten Sie erholt in Ihr London-Abenteuer.
+    </p>
+
+    <h2>Sehenswürdigkeiten & Highlights</h2>
+    <div class="highlights">
+        <div class="highlight-card">
+            <img src="https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg" alt="Big Ben">
+            <h3>Big Ben</h3>
+            <p>Das Wahrzeichen Londons darf auf keiner Sightseeing-Tour fehlen. Beeindruckend bei Tag und Nacht.</p>
+        </div>
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2016/08/05/15/02/london-1572444_1280.jpg" alt="London Eye">
+            <h3>London Eye</h3>
+            <p>Genießen Sie einen atemberaubenden Blick über die ganze Stadt aus Europas größtem Riesenrad.</p>
+        </div>
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2017/06/11/18/31/london-2393176_1280.jpg" alt="Tower of London">
+            <h3>Tower of London</h3>
+            <p>Ein Stück Geschichte: Erleben Sie die Kronjuwelen und die mittelalterliche Architektur.</p>
+        </div>
+        <div class="highlight-card">
+            <img src="https://cdn.pixabay.com/photo/2015/09/06/00/57/piccadilly-circus-926802_1280.jpg" alt="Piccadilly Circus">
+            <h3>Piccadilly Circus</h3>
+            <p>Das belebte Zentrum der Stadt, perfekt zum Shoppen, Essen und Leute beobachten.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    &copy; 2026 EuroRail One | 
+    <a href="#">Impressum</a> | 
+    <a href="#">Datenschutz</a> | 
+    <a href="#">Kontakt</a>
+</footer>
+</body>
+</html>
